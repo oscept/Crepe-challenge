@@ -1,1 +1,1137 @@
+<!DOCTYPE html>  <html lang="es">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+<title>🥞 Crepe Challenge</title>  <style>  
+*{  
+    box-sizing:border-box;  
+    margin:0;  
+    padding:0;  
+}  
+  
+body{  
+    font-family:Arial,sans-serif;  
+    background:#171329;  
+    color:white;  
+    overflow:hidden;  
+}  
+  
+#game{  
+    width:100vw;  
+    height:100vh;  
+    position:relative;  
+    overflow:hidden;  
+}  
+  
+/* PANTALLAS */  
+  
+.screen{  
+    position:absolute;  
+    inset:0;  
+    display:flex;  
+    flex-direction:column;  
+    justify-content:center;  
+    align-items:center;  
+    text-align:center;  
+    background:linear-gradient(135deg,#24184b,#11101f);  
+    z-index:20;  
+    padding:20px;  
+}  
+  
+.screen h1{  
+    font-size:clamp(38px,8vw,75px);  
+    margin-bottom:10px;  
+}  
+  
+.screen p{  
+    font-size:18px;  
+    max-width:600px;  
+    line-height:1.5;  
+}  
+  
+button{  
+    border:none;  
+    border-radius:15px;  
+    padding:14px 24px;  
+    font-size:18px;  
+    font-weight:bold;  
+    cursor:pointer;  
+    background:#ffbd59;  
+    color:#25172f;  
+    margin-top:20px;  
+    box-shadow:0 5px 0 #b86d22;  
+}  
+  
+button:active{  
+    transform:translateY(4px);  
+    box-shadow:0 1px 0 #b86d22;  
+}  
+  
+/* HUD */  
+  
+#hud{  
+    position:absolute;  
+    top:0;  
+    left:0;  
+    width:100%;  
+    display:flex;  
+    justify-content:space-around;  
+    align-items:center;  
+    padding:12px;  
+    background:#0d0b18dd;  
+    z-index:10;  
+    font-weight:bold;  
+}  
+  
+.hudBox{  
+    background:#28203e;  
+    padding:8px 14px;  
+    border-radius:12px;  
+}  
+  
+/* AREA DEL JUEGO */  
+  
+#playArea{  
+    position:absolute;  
+    inset:60px 0 0 0;  
+    display:none;  
+    overflow:hidden;  
+  
+    background:  
+        radial-gradient(circle at 20% 30%,#40315f 0 3%,transparent 4%),  
+        radial-gradient(circle at 70% 60%,#40315f 0 3%,transparent 4%),  
+        #242039;  
+}  
+  
+/* MENSAJE */  
+  
+#message{  
+    position:absolute;  
+    top:15px;  
+    left:50%;  
+    transform:translateX(-50%);  
+    background:#ffffffee;  
+    color:#24172d;  
+    padding:12px 20px;  
+    border-radius:15px;  
+    font-weight:bold;  
+    z-index:9;  
+    display:none;  
+}  
+  
+/* ESTUDIANTE */  
+  
+#player{  
+    position:absolute;  
+    width:50px;  
+    height:50px;  
+    border-radius:50%;  
+    background:#5b8def;  
+    border:4px solid white;  
+    box-shadow:0 0 18px #5b8def;  
+    z-index:5;  
+  
+    display:flex;  
+    align-items:center;  
+    justify-content:center;  
+  
+    font-size:30px;  
+  
+    transition:  
+        left .08s linear,  
+        top .08s linear;  
+}  
+  
+/* INGREDIENTES */  
+  
+.item{  
+    position:absolute;  
+    font-size:38px;  
+    width:55px;  
+    height:55px;  
+  
+    display:flex;  
+    align-items:center;  
+    justify-content:center;  
+  
+    border-radius:15px;  
+    background:#ffffff18;  
+  
+    cursor:pointer;  
+    transition:.2s;  
+}  
+  
+.item:hover{  
+    transform:scale(1.15);  
+}  
+  
+/* PREGUNTAS */  
+  
+#questionBox{  
+    position:absolute;  
+    left:50%;  
+    top:50%;  
+    transform:translate(-50%,-50%);  
+  
+    width:min(90%,550px);  
+  
+    background:#211936;  
+    border:3px solid #ffbd59;  
+    border-radius:25px;  
+  
+    padding:25px;  
+  
+    z-index:15;  
+    display:none;  
+  
+    box-shadow:0 0 30px #0008;  
+}  
+  
+#questionBox h2{  
+    margin-bottom:15px;  
+}  
+  
+.answer{  
+    display:block;  
+    width:100%;  
+    margin:10px 0;  
+  
+    background:#392b57;  
+    color:white;  
+  
+    box-shadow:none;  
+}  
+  
+.answer:hover{  
+    background:#554072;  
+}  
+  
+/* MEMORIA */  
+  
+#memory{  
+    position:absolute;  
+    inset:0;  
+  
+    display:none;  
+  
+    align-items:center;  
+    justify-content:center;  
+    flex-direction:column;  
+  
+    z-index:12;  
+  
+    background:#171329;  
+}  
+  
+#cards{  
+    width:min(90%,500px);  
+  
+    display:grid;  
+    grid-template-columns:repeat(4,1fr);  
+  
+    gap:10px;  
+  
+    margin-top:20px;  
+}  
+  
+.card{  
+    aspect-ratio:1;  
+  
+    border-radius:15px;  
+  
+    background:#40315f;  
+  
+    display:flex;  
+    justify-content:center;  
+    align-items:center;  
+  
+    font-size:35px;  
+  
+    cursor:pointer;  
+}  
+  
+.card.open{  
+    background:#ffbd59;  
+}  
+  
+/* CONTROLES */  
+  
+#controls{  
+    position:absolute;  
+    bottom:20px;  
+    right:20px;  
+  
+    display:grid;  
+    grid-template-columns:60px 60px 60px;  
+  
+    gap:5px;  
+  
+    z-index:11;  
+}  
+  
+.control{  
+    width:60px;  
+    height:60px;  
+  
+    margin:0;  
+    padding:0;  
+  
+    background:#ffffff22;  
+    color:white;  
+  
+    box-shadow:none;  
+}  
+  
+.empty{  
+    visibility:hidden;  
+}  
+  
+/* RESULTADO */  
+  
+#result{  
+    position:absolute;  
+    inset:0;  
+  
+    background:#151125ee;  
+  
+    z-index:30;  
+  
+    display:none;  
+  
+    justify-content:center;  
+    align-items:center;  
+  
+    flex-direction:column;  
+  
+    text-align:center;  
+}  
+  
+#result h2{  
+    font-size:45px;  
+    margin-bottom:15px;  
+}  
+  
+/* CELULAR */  
+  
+@media(max-width:600px){  
+  
+    #hud{  
+        font-size:12px;  
+    }  
+  
+    .hudBox{  
+        padding:6px 8px;  
+    }  
+  
+    #controls{  
+        transform:scale(.8);  
+        transform-origin:bottom right;  
+    }  
+  
+    #cards{  
+        grid-template-columns:repeat(4,1fr);  
+    }  
+}  
+</style>  </head>  <body>  <div id="game">  <!-- INICIO -->  <div id="start" class="screen">  <h1>🥞 Crepe Challenge</h1>  
 
+<p>  
+    ¡Supera diferentes minijuegos y conviértete  
+    en el <b>Maestro de los Crepes</b>!  
+</p>  
+
+<p style="margin-top:10px">  
+    🥞 Cocina · 🧠 Memoria · 🏃 Atrapa · 📚 Aprende  
+</p>  
+
+<p style="margin-top:15px;font-size:15px">  
+    🎮 Usa WASD, las flechas o los botones para moverte.  
+</p>  
+
+<button onclick="startGame()">JUGAR</button>
+
+</div>  <!-- HUD -->  <div id="hud">  <div class="hudBox">  
+    ⭐ Puntos:  
+    <span id="score">0</span>  
+</div>  
+
+<div class="hudBox">  
+    ❤️ Vidas:  
+    <span id="lives">3</span>  
+</div>  
+
+<div class="hudBox">  
+    🏆 Nivel:  
+    <span id="level">1</span>  
+</div>  
+
+<div class="hudBox">  
+    🎯  
+    <span id="challenge">Preparado</span>  
+</div>
+
+</div>  <!-- AREA PRINCIPAL -->  <div id="playArea">  <div id="message"></div>  
+
+<!-- ESTUDIANTE -->  
+
+<div id="player">  
+    🧑‍🎓  
+</div>  
+
+
+<!-- CONTROLES -->  
+
+<div id="controls">  
+
+    <button class="control empty"></button>  
+
+    <button  
+        class="control"  
+        onclick="move(0,-1)">  
+        ⬆️  
+    </button>  
+
+    <button class="control empty"></button>  
+
+
+    <button  
+        class="control"  
+        onclick="move(-1,0)">  
+        ⬅️  
+    </button>  
+
+    <button  
+        class="control"  
+        onclick="move(0,1)">  
+        ⬇️  
+    </button>  
+
+    <button  
+        class="control"  
+        onclick="move(1,0)">  
+        ➡️  
+    </button>  
+
+</div>
+
+</div>  <!-- PREGUNTAS -->  <div id="questionBox">  <h2 id="question"></h2>  
+
+<div id="answers"></div>
+
+</div>  <!-- MEMORIA -->  <div id="memory">  <h2>🧠 Memoria de Ingredientes</h2>  
+
+<p>  
+    ¡Encuentra todas las parejas!  
+</p>  
+
+<div id="cards"></div>
+
+</div>  <!-- RESULTADO -->  <div id="result">  <h2 id="resultTitle">  
+    🎉 ¡Terminaste!  
+</h2>  
+
+<p id="resultText"></p>  
+
+<button onclick="location.reload()">  
+    🔄 JUGAR DE NUEVO  
+</button>
+
+</div>  </div>  <script>  
+  
+/* =====================================  
+   VARIABLES  
+===================================== */  
+  
+let score = 0;  
+let lives = 3;  
+let level = 1;  
+  
+let gameRunning = false;  
+  
+let playerX = 50;  
+let playerY = 50;  
+  
+let currentMiniGame = 0;  
+  
+const player =  
+    document.getElementById("player");  
+  
+const playArea =  
+    document.getElementById("playArea");  
+  
+  
+/* =====================================  
+   INGREDIENTES  
+===================================== */  
+  
+const ingredients = [  
+  
+    {  
+        emoji:"🍓",  
+        name:"Fresa",  
+        x:15,  
+        y:25  
+    },  
+  
+    {  
+        emoji:"🍌",  
+        name:"Plátano",  
+        x:75,  
+        y:20  
+    },  
+  
+    {  
+        emoji:"🥛",  
+        name:"Leche",  
+        x:30,  
+        y:65  
+    },  
+  
+    {  
+        emoji:"🥚",  
+        name:"Huevo",  
+        x:80,  
+        y:70  
+    },  
+  
+    {  
+        emoji:"🌾",  
+        name:"Avena",  
+        x:55,  
+        y:40  
+    }  
+  
+];  
+  
+  
+/* =====================================  
+   INICIAR JUEGO  
+===================================== */  
+  
+function startGame(){  
+  
+    document  
+        .getElementById("start")  
+        .style.display="none";  
+  
+    playArea.style.display="block";  
+  
+    gameRunning=true;  
+  
+    updateHUD();  
+  
+    showMessage(  
+        "🎯 ¡Recoge los ingredientes!"  
+    );  
+  
+    createIngredients();  
+  
+    setTimeout(()=>{  
+  
+        nextChallenge();  
+  
+    },8000);  
+}  
+  
+  
+/* =====================================  
+   CREAR INGREDIENTES  
+===================================== */  
+  
+function createIngredients(){  
+  
+    ingredients.forEach((item,index)=>{  
+  
+        const el =  
+            document.createElement("div");  
+  
+        el.className="item";  
+  
+        el.innerHTML=item.emoji;  
+  
+        el.style.left=  
+            item.x+"%";  
+  
+        el.style.top=  
+            item.y+"%";  
+  
+        el.dataset.index=index;  
+  
+        playArea.appendChild(el);  
+  
+    });  
+}  
+  
+  
+/* =====================================  
+   TECLADO  
+===================================== */  
+  
+document.addEventListener(  
+    "keydown",  
+    e=>{  
+  
+        if(!gameRunning)  
+            return;  
+  
+        if(  
+            e.key==="ArrowUp" ||  
+            e.key.toLowerCase()==="w"  
+        )  
+            move(0,-1);  
+  
+        if(  
+            e.key==="ArrowDown" ||  
+            e.key.toLowerCase()==="s"  
+        )  
+            move(0,1);  
+  
+        if(  
+            e.key==="ArrowLeft" ||  
+            e.key.toLowerCase()==="a"  
+        )  
+            move(-1,0);  
+  
+        if(  
+            e.key==="ArrowRight" ||  
+            e.key.toLowerCase()==="d"  
+        )  
+            move(1,0);  
+  
+    }  
+);  
+  
+  
+/* =====================================  
+   MOVIMIENTO  
+===================================== */  
+  
+function move(dx,dy){  
+  
+    if(!gameRunning)  
+        return;  
+  
+    playerX += dx*3;  
+  
+    playerY += dy*3;  
+  
+    playerX =  
+        Math.max(  
+            2,  
+            Math.min(93,playerX)  
+        );  
+  
+    playerY =  
+        Math.max(  
+            2,  
+            Math.min(90,playerY)  
+        );  
+  
+    player.style.left=  
+        playerX+"%";  
+  
+    player.style.top=  
+        playerY+"%";  
+  
+    checkItems();  
+}  
+  
+  
+/* =====================================  
+   RECOGER INGREDIENTES  
+===================================== */  
+  
+function checkItems(){  
+  
+    const items =  
+        document.querySelectorAll(".item");  
+  
+    items.forEach(item=>{  
+  
+        const ix =  
+            parseFloat(item.style.left);  
+  
+        const iy =  
+            parseFloat(item.style.top);  
+  
+        const distance =  
+            Math.sqrt(  
+                Math.pow(  
+                    playerX-ix,  
+                    2  
+                )  
+                +  
+                Math.pow(  
+                    playerY-iy,  
+                    2  
+                )  
+            );  
+  
+        if(distance<7){  
+  
+            if(!item.dataset.taken){  
+  
+                item.dataset.taken="true";  
+  
+                item.style.display="none";  
+  
+                score+=20;  
+  
+                showMessage(  
+                    "🥞 ¡Ingrediente conseguido! +20"  
+                );  
+  
+                updateHUD();  
+            }  
+        }  
+  
+    });  
+}  
+  
+  
+/* =====================================  
+   CAMBIAR RETO  
+===================================== */  
+  
+function nextChallenge(){  
+  
+    if(!gameRunning)  
+        return;  
+  
+    currentMiniGame++;  
+  
+    if(currentMiniGame>4){  
+  
+        finishGame();  
+  
+        return;  
+    }  
+  
+  
+    /* RETO 1 */  
+  
+    if(currentMiniGame===1){  
+  
+        document  
+            .getElementById("challenge")  
+            .textContent="🧠 Memoria";  
+  
+        setTimeout(  
+            startMemory,  
+            500  
+        );  
+    }  
+  
+  
+    /* RETO 2 */  
+  
+    if(currentMiniGame===2){  
+  
+        document  
+            .getElementById("challenge")  
+            .textContent="📚 Pregunta";  
+  
+        setTimeout(  
+            startQuestion,  
+            500  
+        );  
+    }  
+  
+  
+    /* RETO 3 */  
+  
+    if(currentMiniGame===3){  
+  
+        document  
+            .getElementById("challenge")  
+            .textContent="🥞 Crepe";  
+  
+        startCrepeChallenge();  
+    }  
+  
+  
+    /* RETO 4 */  
+  
+    if(currentMiniGame===4){  
+  
+        document  
+            .getElementById("challenge")  
+            .textContent="⭐ Reto final";  
+  
+        setTimeout(  
+            startQuestion,  
+            500  
+        );  
+    }  
+  
+}  
+  
+  
+/* =====================================  
+   MINIJUEGO DE MEMORIA  
+===================================== */  
+  
+function startMemory(){  
+  
+    playArea.style.display="none";  
+  
+    document  
+        .getElementById("memory")  
+        .style.display="flex";  
+  
+  
+    const symbols=[  
+        "🍓",  
+        "🍌",  
+        "🥚",  
+        "🥛",  
+        "🌾",  
+        "🍎"  
+    ];  
+  
+  
+    let deck=[  
+        ...symbols,  
+        ...symbols  
+    ];  
+  
+  
+    deck.sort(  
+        ()=>Math.random()-0.5  
+    );  
+  
+  
+    const cards =  
+        document.getElementById("cards");  
+  
+    cards.innerHTML="";  
+  
+  
+    let first=null;  
+  
+    let lock=false;  
+  
+    let pairs=0;  
+  
+  
+    deck.forEach(symbol=>{  
+  
+        const card =  
+            document.createElement("div");  
+  
+        card.className="card";  
+  
+        card.textContent="❓";  
+  
+  
+        card.onclick=()=>{  
+  
+            if(  
+                lock ||  
+                card.classList.contains("open")  
+            )  
+                return;  
+  
+  
+            card.classList.add("open");  
+  
+            card.textContent=symbol;  
+  
+  
+            if(!first){  
+  
+                first={  
+                    card,  
+                    symbol  
+                };  
+  
+            }  
+  
+            else{  
+  
+                if(  
+                    first.symbol===symbol  
+                ){  
+  
+                    pairs++;  
+  
+                    score+=30;  
+  
+                    first=null;  
+  
+  
+                    if(  
+                        pairs===symbols.length  
+                    ){  
+  
+                        setTimeout(()=>{  
+  
+                            document  
+                                .getElementById("memory")  
+                                .style.display="none";  
+  
+                            playArea.style.display="block";  
+  
+  
+                            showMessage(  
+                                "🧠 ¡Memoria completada! +180"  
+                            );  
+  
+  
+                            updateHUD();  
+  
+  
+                            setTimeout(  
+                                nextChallenge,  
+                                1500  
+                            );  
+  
+                        },500);  
+  
+                    }  
+  
+                }  
+  
+                else{  
+  
+                    lock=true;  
+  
+  
+                    setTimeout(()=>{  
+  
+                        card  
+                            .classList  
+                            .remove("open");  
+  
+                        card.textContent="❓";  
+  
+  
+                        first.card  
+                            .classList  
+                            .remove("open");  
+  
+                        first.card.textContent="❓";  
+  
+  
+                        first=null;  
+  
+                        lock=false;  
+  
+                    },700);  
+  
+                }  
+  
+            }  
+  
+  
+            updateHUD();  
+  
+        };  
+  
+  
+        cards.appendChild(card);  
+  
+    });  
+  
+}  
+  
+  
+/* =====================================  
+   PREGUNTAS EDUCATIVAS  
+===================================== */  
+  
+const questions=[  
+  
+    {  
+        q:"¿Cuál de estos es una fruta?",  
+        a:[  
+            "🍓 Fresa",  
+            "🥚 Huevo",  
+            "🥛 Leche"  
+        ],  
+        correct:0  
+    },  
+  
+    {  
+        q:"¿Cuál de estos se usa en muchos tipos de crepes?",  
+        a:[  
+            "🥚 Huevo",  
+            "⚽ Pelota",  
+            "🧸 Juguete"  
+        ],  
+        correct:0  
+    },  
+  
+    {  
+        q:"¿Qué significa tener una alimentación variada?",  
+        a:[  
+            "Comer siempre lo mismo",  
+            "Combinar diferentes tipos de alimentos",  
+            "No comer nunca frutas"  
+        ],  
+        correct:1  
+    },  
+  
+    {  
+        q:"¿Cuál de estos es un cereal?",  
+        a:[  
+            "🌾 Avena",  
+            "🍓 Fresa",  
+            "🥚 Huevo"  
+        ],  
+        correct:0  
+    },  
+  
+    {  
+        q:"¿Cuál de estos es un lácteo?",  
+        a:[  
+            "🥛 Leche",  
+            "🍌 Plátano",  
+            "🌾 Avena"  
+        ],  
+        correct:0  
+    }  
+  
+];  
+  
+  
+/* =====================================  
+   MOSTRAR PREGUNTA  
+===================================== */  
+  
+function startQuestion(){  
+  
+    const box =  
+        document.getElementById(  
+            "questionBox"  
+        );  
+  
+  
+    const data =  
+        questions[  
+            Math.floor(  
+                Math.random()*  
+                questions.length  
+            )  
+        ];  
+  
+  
+    document  
+        .getElementById("question")  
+        .textContent=data.q;  
+  
+  
+    const answers =  
+        document.getElementById(  
+            "answers"  
+        );  
+  
+  
+    answers.innerHTML="";  
+  
+  
+    data.a.forEach(  
+        (answer,index)=>{  
+  
+            const button =  
+                document.createElement(  
+                    "button"  
+                );  
+  
+  
+            button.className="answer";  
+  
+            button.textContent=answer;  
+  
+  
+            button.onclick=()=>{  
+  
+                if(  
+                    index===data.correct  
+                ){  
+  
+                    score+=50;  
+  
+                    showMessage(  
+                        "✅ ¡Correcto! +50"  
+                    );  
+  
+                }  
+  
+                else{  
+  
+                    lives--;  
+  
+                    showMessage(  
+                        "❌ ¡Ups! Perdiste una vida."  
+                    );  
+  
+  
+                    if(lives<=0){  
+  
+                        finishGame();  
+  
+                        return;  
+                    }  
+                }  
+  
+  
+                box.style.display="none";  
+  
+                updateHUD();  
+  
+  
+                setTimeout(  
+                    nextChallenge,  
+                    1200  
+                );  
+  
+            };  
+  
+  
+            answers.appendChild(button);  
+  
+        }  
+    );  
+  
+  
+    box.style.display="block";  
+}  
+  
+  
+/* =====================================  
+   RETO DEL CREPE  
+===================================== */  
+  
+function startCrepeChallenge(){  
+  
+    showMessage(  
+        "🥞 ¡Busca 3 ingredientes!"  
+    );  
+  
+  
+    document  
+        .querySelectorAll(".item")  
+        .forEach(item=>{  
+  
+            item.style.display="flex";  
+  
+            item.dataset.taken="false";  
+  
+        });  
+  
+  
+    playerX=50;  
+  
+    playerY=50;  
+  
+  
+    player.style.left=  
+        playerX+"%";  
+  
+    player.style.top=  
+        playerY+"%";  
+  
+  
+    setTimeout(()=>{  
+  
+        const collecte
