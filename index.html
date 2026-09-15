@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>🥞 Crepe Challenge</title>
 
 <style>
@@ -42,7 +41,7 @@ body{
 
 .screen h1{
     font-size:clamp(38px,8vw,75px);
-    margin-bottom:10px;
+    margin-bottom:15px;
 }
 
 .screen p{
@@ -94,7 +93,6 @@ button:active{
     inset:60px 0 0 0;
     display:none;
     overflow:hidden;
-
     background:
         radial-gradient(circle at 20% 30%,#40315f 0 3%,transparent 4%),
         radial-gradient(circle at 70% 60%,#40315f 0 3%,transparent 4%),
@@ -124,11 +122,9 @@ button:active{
     border:4px solid white;
     box-shadow:0 0 18px #5b8def;
     z-index:5;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     font-size:30px;
 }
 
@@ -137,20 +133,12 @@ button:active{
     font-size:38px;
     width:55px;
     height:55px;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     border-radius:15px;
     background:#ffffff18;
-
     cursor:pointer;
-    transition:.2s;
-}
-
-.item:hover{
-    transform:scale(1.15);
 }
 
 #questionBox{
@@ -158,18 +146,13 @@ button:active{
     left:50%;
     top:50%;
     transform:translate(-50%,-50%);
-
     width:min(90%,550px);
-
     background:#211936;
     border:3px solid #ffbd59;
     border-radius:25px;
-
     padding:25px;
-
     z-index:15;
     display:none;
-
     box-shadow:0 0 30px #0008;
 }
 
@@ -181,10 +164,8 @@ button:active{
     display:block;
     width:100%;
     margin:10px 0;
-
     background:#392b57;
     color:white;
-
     box-shadow:none;
 }
 
@@ -195,42 +176,30 @@ button:active{
 #memory{
     position:absolute;
     inset:0;
-
     display:none;
-
     align-items:center;
     justify-content:center;
     flex-direction:column;
-
     z-index:12;
-
     background:#171329;
 }
 
 #cards{
     width:min(90%,500px);
-
     display:grid;
     grid-template-columns:repeat(4,1fr);
-
     gap:10px;
-
     margin-top:20px;
 }
 
 .card{
     aspect-ratio:1;
-
     border-radius:15px;
-
     background:#40315f;
-
     display:flex;
     justify-content:center;
     align-items:center;
-
     font-size:35px;
-
     cursor:pointer;
 }
 
@@ -242,25 +211,19 @@ button:active{
     position:absolute;
     bottom:20px;
     right:20px;
-
     display:grid;
     grid-template-columns:60px 60px 60px;
-
     gap:5px;
-
     z-index:11;
 }
 
 .control{
     width:60px;
     height:60px;
-
     margin:0;
     padding:0;
-
     background:#ffffff22;
     color:white;
-
     box-shadow:none;
 }
 
@@ -271,19 +234,14 @@ button:active{
 #result{
     position:absolute;
     inset:0;
-
     background:#151125ee;
-
     z-index:30;
-
     display:none;
-
     justify-content:center;
     align-items:center;
-
     flex-direction:column;
-
     text-align:center;
+    padding:20px;
 }
 
 #result h2{
@@ -300,7 +258,7 @@ button:active{
 @media(max-width:600px){
 
     #hud{
-        font-size:12px;
+        font-size:11px;
     }
 
     .hudBox{
@@ -311,10 +269,6 @@ button:active{
         transform:scale(.8);
         transform-origin:bottom right;
     }
-
-    #cards{
-        grid-template-columns:repeat(4,1fr);
-    }
 }
 </style>
 </head>
@@ -323,7 +277,7 @@ button:active{
 
 <div id="game">
 
-<!-- INICIO -->
+<!-- PANTALLA INICIAL -->
 
 <div id="start" class="screen">
 
@@ -342,7 +296,9 @@ button:active{
         🎮 Usa WASD, las flechas o los botones para moverte.
     </p>
 
-    <button onclick="startGame()">JUGAR</button>
+    <!-- ESTE ES EL BOTÓN JUGAR -->
+
+    <button onclick="startGame()">🥞 JUGAR</button>
 
 </div>
 
@@ -367,53 +323,45 @@ button:active{
     </div>
 
     <div class="hudBox">
-        🎯
-        <span id="challenge">Preparado</span>
+        🎯 <span id="challenge">Preparado</span>
     </div>
 
 </div>
 
 
-<!-- AREA DEL JUEGO -->
+<!-- JUEGO -->
 
 <div id="playArea">
 
     <div id="message"></div>
 
-    <div id="player">
-        🧑‍🎓
-    </div>
+    <div id="player">🧑‍🎓</div>
 
-
-    <!-- CONTROLES -->
+    <!-- CONTROLES CELULAR -->
 
     <div id="controls">
 
         <button class="control empty"></button>
 
-        <button
-            class="control"
-            onclick="move(0,-1)">
+        <button class="control"
+                onclick="move(0,-1)">
             ⬆️
         </button>
 
         <button class="control empty"></button>
 
-        <button
-            class="control"
-            onclick="move(-1,0)">
+        <button class="control"
+                onclick="move(-1,0)">
             ⬅️
         </button>
 
-        <button
-            class="control"
-            onclick="move(0,1)">
+        <button class="control"
+                onclick="move(0,1)">
             ⬇️
         </button>
 
-        <button
-            class="control"
-            onclick="move(1,0)">
+        <button class="control"
+                onclick="move(1,0)">
             ➡️
         </button>
 
@@ -439,9 +387,7 @@ button:active{
 
     <h2>🧠 Memoria de Ingredientes</h2>
 
-    <p>
-        ¡Encuentra todas las parejas!
-    </p>
+    <p>¡Encuentra todas las parejas!</p>
 
     <div id="cards"></div>
 
@@ -469,10 +415,6 @@ button:active{
 
 <script>
 
-/* ==============================
-   VARIABLES
-============================== */
-
 let score = 0;
 let lives = 3;
 let level = 1;
@@ -484,8 +426,6 @@ let playerY = 50;
 
 let currentMiniGame = 0;
 
-let crepeTimer = null;
-
 const player =
     document.getElementById("player");
 
@@ -493,9 +433,7 @@ const playArea =
     document.getElementById("playArea");
 
 
-/* ==============================
-   INGREDIENTES
-============================== */
+/* INGREDIENTES */
 
 const ingredients = [
 
@@ -537,16 +475,13 @@ const ingredients = [
 ];
 
 
-/* ==============================
-   INICIAR
-============================== */
+/* =========================
+   INICIAR JUEGO
+========================= */
 
 function startGame(){
 
-    score=0;
-    lives=3;
-    level=1;
-    currentMiniGame=0;
+    console.log("Juego iniciado");
 
     document
         .getElementById("start")
@@ -555,6 +490,11 @@ function startGame(){
     playArea.style.display="block";
 
     gameRunning=true;
+
+    score=0;
+    lives=3;
+    level=1;
+    currentMiniGame=0;
 
     playerX=50;
     playerY=50;
@@ -570,15 +510,14 @@ function startGame(){
         "🎯 ¡Recoge los ingredientes!"
     );
 
-    setTimeout(()=>{
-        nextChallenge();
-    },8000);
+    setTimeout(
+        nextChallenge,
+        8000
+    );
 }
 
 
-/* ==============================
-   CREAR INGREDIENTES
-============================== */
+/* CREAR INGREDIENTES */
 
 function createIngredients(){
 
@@ -586,650 +525,36 @@ function createIngredients(){
         .querySelectorAll(".item")
         .forEach(item=>item.remove());
 
-    ingredients.forEach((item,index)=>{
+    ingredients.forEach(
+        (item,index)=>{
 
-        const el =
-            document.createElement("div");
+            const el =
+                document.createElement("div");
 
-        el.className="item";
+            el.className="item";
 
-        el.innerHTML=item.emoji;
+            el.textContent=item.emoji;
 
-        el.style.left=item.x+"%";
-        el.style.top=item.y+"%";
+            el.style.left=item.x+"%";
+            el.style.top=item.y+"%";
 
-        el.dataset.index=index;
-        el.dataset.taken="false";
+            el.dataset.index=index;
+            el.dataset.taken="false";
 
-        playArea.appendChild(el);
+            playArea.appendChild(el);
 
-    });
+        }
+    );
 }
 
 
-/* ==============================
-   TECLADO
-============================== */
+/* TECLADO */
 
 document.addEventListener(
     "keydown",
-    e=>{
+    function(e){
 
         if(!gameRunning)
             return;
 
-        if(
-            e.key==="ArrowUp" ||
-            e.key.toLowerCase()==="w"
-        ){
-            move(0,-1);
-        }
-
-        if(
-            e.key==="ArrowDown" ||
-            e.key.toLowerCase()==="s"
-        ){
-            move(0,1);
-        }
-
-        if(
-            e.key==="ArrowLeft" ||
-            e.key.toLowerCase()==="a"
-        ){
-            move(-1,0);
-        }
-
-        if(
-            e.key==="ArrowRight" ||
-            e.key.toLowerCase()==="d"
-        ){
-            move(1,0);
-        }
-
-    }
-);
-
-
-/* ==============================
-   MOVIMIENTO
-============================== */
-
-function move(dx,dy){
-
-    if(!gameRunning)
-        return;
-
-    playerX += dx*3;
-    playerY += dy*3;
-
-    playerX=Math.max(
-        2,
-        Math.min(93,playerX)
-    );
-
-    playerY=Math.max(
-        2,
-        Math.min(90,playerY)
-    );
-
-    player.style.left=playerX+"%";
-    player.style.top=playerY+"%";
-
-    checkItems();
-}
-
-
-/* ==============================
-   RECOGER INGREDIENTES
-============================== */
-
-function checkItems(){
-
-    const items =
-        document.querySelectorAll(".item");
-
-    items.forEach(item=>{
-
-        if(item.dataset.taken==="true")
-            return;
-
-        const ix=parseFloat(item.style.left);
-        const iy=parseFloat(item.style.top);
-
-        const distance=Math.sqrt(
-            Math.pow(playerX-ix,2)+
-            Math.pow(playerY-iy,2)
-        );
-
-        if(distance<7){
-
-            item.dataset.taken="true";
-            item.style.display="none";
-
-            score+=20;
-
-            showMessage(
-                "🥞 ¡Ingrediente conseguido! +20"
-            );
-
-            updateHUD();
-        }
-
-    });
-}
-
-
-/* ==============================
-   CAMBIAR RETO
-============================== */
-
-function nextChallenge(){
-
-    if(!gameRunning)
-        return;
-
-    currentMiniGame++;
-
-    if(currentMiniGame>4){
-
-        finishGame();
-        return;
-    }
-
-    if(currentMiniGame===1){
-
-        document
-            .getElementById("challenge")
-            .textContent="🧠 Memoria";
-
-        setTimeout(
-            startMemory,
-            500
-        );
-    }
-
-    if(currentMiniGame===2){
-
-        document
-            .getElementById("challenge")
-            .textContent="📚 Pregunta";
-
-        setTimeout(
-            startQuestion,
-            500
-        );
-    }
-
-    if(currentMiniGame===3){
-
-        document
-            .getElementById("challenge")
-            .textContent="🥞 Crepe";
-
-        startCrepeChallenge();
-    }
-
-    if(currentMiniGame===4){
-
-        document
-            .getElementById("challenge")
-            .textContent="⭐ Reto final";
-
-        setTimeout(
-            startQuestion,
-            500
-        );
-    }
-}
-
-
-/* ==============================
-   MEMORIA
-============================== */
-
-function startMemory(){
-
-    if(!gameRunning)
-        return;
-
-    playArea.style.display="none";
-
-    document
-        .getElementById("memory")
-        .style.display="flex";
-
-    const symbols=[
-        "🍓",
-        "🍌",
-        "🥚",
-        "🥛",
-        "🌾",
-        "🍎"
-    ];
-
-    let deck=[
-        ...symbols,
-        ...symbols
-    ];
-
-    deck.sort(
-        ()=>Math.random()-0.5
-    );
-
-    const cards=
-        document.getElementById("cards");
-
-    cards.innerHTML="";
-
-    let first=null;
-    let lock=false;
-    let pairs=0;
-
-    deck.forEach(symbol=>{
-
-        const card=
-            document.createElement("div");
-
-        card.className="card";
-        card.textContent="❓";
-
-        card.onclick=()=>{
-
-            if(
-                lock ||
-                card.classList.contains("open")
-            )
-                return;
-
-            card.classList.add("open");
-            card.textContent=symbol;
-
-            if(!first){
-
-                first={
-                    card:card,
-                    symbol:symbol
-                };
-
-            }
-
-            else{
-
-                if(first.symbol===symbol){
-
-                    pairs++;
-
-                    score+=30;
-
-                    first=null;
-
-                    updateHUD();
-
-                    if(
-                        pairs===symbols.length
-                    ){
-
-                        setTimeout(()=>{
-
-                            document
-                                .getElementById("memory")
-                                .style.display="none";
-
-                            playArea.style.display="block";
-
-                            showMessage(
-                                "🧠 ¡Memoria completada! +180"
-                            );
-
-                            setTimeout(
-                                nextChallenge,
-                                1500
-                            );
-
-                        },500);
-                    }
-
-                }
-
-                else{
-
-                    lock=true;
-
-                    setTimeout(()=>{
-
-                        card.classList.remove("open");
-                        card.textContent="❓";
-
-                        first.card.classList.remove("open");
-                        first.card.textContent="❓";
-
-                        first=null;
-                        lock=false;
-
-                    },700);
-
-                }
-            }
-        };
-
-        cards.appendChild(card);
-    });
-}
-
-
-/* ==============================
-   PREGUNTAS
-============================== */
-
-const questions=[
-
-    {
-        q:"¿Cuál de estos es una fruta?",
-        a:[
-            "🍓 Fresa",
-            "🥚 Huevo",
-            "🥛 Leche"
-        ],
-        correct:0
-    },
-
-    {
-        q:"¿Cuál de estos se usa en muchos tipos de crepes?",
-        a:[
-            "🥚 Huevo",
-            "⚽ Pelota",
-            "🧸 Juguete"
-        ],
-        correct:0
-    },
-
-    {
-        q:"¿Qué significa tener una alimentación variada?",
-        a:[
-            "Comer siempre lo mismo",
-            "Combinar diferentes tipos de alimentos",
-            "No comer nunca frutas"
-        ],
-        correct:1
-    },
-
-    {
-        q:"¿Cuál de estos es un cereal?",
-        a:[
-            "🌾 Avena",
-            "🍓 Fresa",
-            "🥚 Huevo"
-        ],
-        correct:0
-    },
-
-    {
-        q:"¿Cuál de estos es un lácteo?",
-        a:[
-            "🥛 Leche",
-            "🍌 Plátano",
-            "🌾 Avena"
-        ],
-        correct:0
-    }
-
-];
-
-
-/* ==============================
-   MOSTRAR PREGUNTA
-============================== */
-
-function startQuestion(){
-
-    if(!gameRunning)
-        return;
-
-    const box=
-        document.getElementById(
-            "questionBox"
-        );
-
-    const data=
-        questions[
-            Math.floor(
-                Math.random()*questions.length
-            )
-        ];
-
-    document
-        .getElementById("question")
-        .textContent=data.q;
-
-    const answers=
-        document.getElementById("answers");
-
-    answers.innerHTML="";
-
-    data.a.forEach(
-        (answer,index)=>{
-
-            const button=
-                document.createElement("button");
-
-            button.className="answer";
-            button.textContent=answer;
-
-            button.onclick=()=>{
-
-                if(index===data.correct){
-
-                    score+=50;
-
-                    showMessage(
-                        "✅ ¡Correcto! +50"
-                    );
-
-                }
-
-                else{
-
-                    lives--;
-
-                    showMessage(
-                        "❌ ¡Ups! Perdiste una vida."
-                    );
-
-                    if(lives<=0){
-
-                        box.style.display="none";
-
-                        finishGame();
-
-                        return;
-                    }
-                }
-
-                box.style.display="none";
-
-                updateHUD();
-
-                setTimeout(
-                    nextChallenge,
-                    1200
-                );
-            };
-
-            answers.appendChild(button);
-
-        }
-    );
-
-    box.style.display="block";
-}
-
-
-/* ==============================
-   RETO DEL CREPE
-============================== */
-
-function startCrepeChallenge(){
-
-    if(!gameRunning)
-        return;
-
-    showMessage(
-        "🥞 ¡Busca 3 ingredientes!"
-    );
-
-    document
-        .querySelectorAll(".item")
-        .forEach(item=>{
-
-            item.style.display="flex";
-            item.dataset.taken="false";
-
-        });
-
-    playerX=50;
-    playerY=50;
-
-    player.style.left=playerX+"%";
-    player.style.top=playerY+"%";
-
-    clearTimeout(crepeTimer);
-
-    crepeTimer=setTimeout(()=>{
-
-        if(!gameRunning)
-            return;
-
-        const collected=
-            document.querySelectorAll(
-                '.item[data-taken="true"]'
-            ).length;
-
-        if(collected>=3){
-
-            score+=100;
-
-            showMessage(
-                "🥞 ¡Crepe completado! +100"
-            );
-
-        }
-
-        else{
-
-            showMessage(
-                "⏰ ¡Necesitas recoger más ingredientes!"
-            );
-
-        }
-
-        updateHUD();
-
-        setTimeout(
-            nextChallenge,
-            1800
-        );
-
-    },10000);
-}
-
-
-/* ==============================
-   MENSAJES
-============================== */
-
-function showMessage(text){
-
-    const msg=
-        document.getElementById("message");
-
-    msg.textContent=text;
-
-    msg.style.display="block";
-
-    clearTimeout(window.msgTimer);
-
-    window.msgTimer=setTimeout(()=>{
-
-        msg.style.display="none";
-
-    },1800);
-}
-
-
-/* ==============================
-   HUD
-============================== */
-
-function updateHUD(){
-
-    document
-        .getElementById("score")
-        .textContent=score;
-
-    document
-        .getElementById("lives")
-        .textContent=lives;
-
-    document
-        .getElementById("level")
-        .textContent=level;
-}
-
-
-/* ==============================
-   FINAL
-============================== */
-
-function finishGame(){
-
-    gameRunning=false;
-
-    clearTimeout(crepeTimer);
-
-    document
-        .getElementById("questionBox")
-        .style.display="none";
-
-    document
-        .getElementById("memory")
-        .style.display="none";
-
-    playArea.style.display="none";
-
-    const result=
-        document.getElementById("result");
-
-    result.style.display="flex";
-
-    const title=
-        document.getElementById("resultTitle");
-
-    const text=
-        document.getElementById("resultText");
-
-    if(lives<=0){
-
-        title.textContent=
-            "😵 ¡Fin del juego!";
-
-        text.textContent=
-            "Te quedaste sin vidas. ¡Inténtalo nuevamente y consigue más puntos!";
-
-    }
-
-    else{
-
-        title.textContent=
-            "🎉 ¡Felicidades!";
-
-        text.textContent=
-            "¡Completaste todos los retos y obtuviste "+
-            score+
-            " puntos! 🥞🏆";
-    }
-}
-
-</script>
-
-</body>
-    </html>
+        const key=e
